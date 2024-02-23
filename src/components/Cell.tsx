@@ -84,12 +84,14 @@ const Cell: React.FC<Props> = ({ day, events }) => {
         </Droppable>
       </CellContainer>
 
-      <ModalEvent
-        date={day}
-        isOpen={isOpen}
-        event={editedEvent}
-        closeModal={() => setIsOpen(false)}
-      />
+      {isOpen && (
+        <ModalEvent
+          date={day}
+          isOpen={isOpen}
+          event={editedEvent}
+          closeModal={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 };

@@ -38,3 +38,13 @@ export const selectCalendarDownloadData = createSelector(
 export const selectLabelsForEvent = createSelector(selectCalendar, (state) =>
   state.labels.filter((lbl) => !FIXED_LABELS.some((l) => l.id === lbl.id)),
 );
+
+const selectEvents = (state: RootState) => state.calendar.events;
+
+export const selectIndexForNewEvent = createSelector(
+  [selectEvents, (state: RootState, date: string) => date],
+  (events, date) =>
+    events
+      .filter((event) => event.date === date)
+      .sort((a, b) => b.index - a.index)[0]?.index + 1 || 0,
+);

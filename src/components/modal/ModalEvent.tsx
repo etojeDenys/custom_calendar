@@ -11,7 +11,10 @@ import BaseModal from "./BaseModal";
 import styled from "styled-components";
 import LabelsSelect from "../LabelsSelect";
 import LabelsContainer from "../ui/LabelsContainer";
-import { selectLabelsForEvent } from "../../redux/features/calendar/selectors";
+import {
+  selectIndexForNewEvent,
+  selectLabelsForEvent,
+} from "../../redux/features/calendar/selectors";
 
 type Props = {
   date: string;
@@ -22,6 +25,9 @@ type Props = {
 
 const ModalEvent: React.FC<Props> = ({ date, isOpen, closeModal, event }) => {
   const labels = useAppSelector(selectLabelsForEvent);
+  const newIndex = useAppSelector((state) =>
+    selectIndexForNewEvent(state, date),
+  );
 
   const [selectedLabels, setSelectedLabels] = useState<EventLabel[]>(
     event?.labels || [],
@@ -57,7 +63,7 @@ const ModalEvent: React.FC<Props> = ({ date, isOpen, closeModal, event }) => {
         date,
         name: name.trim(),
         labels: selectedLabels,
-        index: 0,
+        index: newIndex,
       };
 
       dispatch(addEvent(newEvent));
